@@ -11,11 +11,21 @@
   
       <section>
         <% if (todoList.length) { %>
-          <ul>
-            <% todoList.forEach(todo => { %>
-              <li><%= todo.item %></li>
-            <% }) %>
-          </ul>
+            <ul>
+                <% todoList.forEach(todo => { %>
+                  <li>
+                    <form action="/edit/<%= todo.id %>" method="GET">
+                        <input type="checkbox" />
+                        <%= todo.item %>
+                        <button type="submit">edit</button>
+                    </form>
+                    <form action="/delete/<%= todo.id %>" method="POST">
+                        <button type="submit">delete</button>
+                    </form>
+                </li>
+                  
+                <% }) %>
+              </ul>
         <% } else { %>
           <p>No items</p>
         <% } %>

@@ -11,6 +11,7 @@
   "type": "module",
   "scripts": {
     "start": "node index.js",
+    "dev":"nodemon index.js",
     "build": "node index.js"
   },
   "author": "Prince Reyes",

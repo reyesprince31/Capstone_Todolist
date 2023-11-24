@@ -21,11 +21,47 @@ app.post("/submit", (req, res) => {
     item: todoItem,
   };
 
-  todoList.push(newTodo); // Update todoList array
-  console.log(todoList);
+  if (todoItem) {
 
-  res.render("index.ejs", { todoList }); // Pass updated todoList
+    todoList.push(newTodo); // Update todoList array
+    // console.log(todoList);
+  }
+
+  res.redirect('/'); // Pass updated todoList
 });
+
+app.get('/edit/:id', (req, res) => {
+  const todoId = parseFloat(req.params.id);
+  const todoToEdit = todoList.find(todo => todo.id === todoId);
+
+  res.render('edit.ejs', { todo: todoToEdit });
+})
+
+app.post('/edit/:id', (req, res) => {
+  const {editedTodoItem} = req.body
+  const todoId = parseFloat(req.params.id);
+  const todoToEditIndex = todoList.findIndex(todo => todo.id === todoId);
+  console.log(todoList[todoToEditIndex])
+
+  if (todoToEditIndex !== -1){
+    todoList[todoToEditIndex] = {...todoList[todoToEditIndex], item: editedTodoItem}
+  }
+
+
+  console.log(todoList)
+
+  res.redirect('/')
+})
+
+app.post('/delete/:id', (req, res) => {
+  const {id} = req.params
+  const todoId = parseFloat(id);
+
+  todoList = todoList.filter(item => item.id !== todoId)
+
+  console.log(todoList)
+  res.redirect('/')
+})
 
 app.listen(PORT, () => {
   console.log(`Successfully connected to Port ${PORT}`);
